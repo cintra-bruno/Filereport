@@ -1,6 +1,8 @@
 package com.companyname.filereport.domain.factory;
 
 import com.companyname.filereport.domain.entity.Entity;
+import com.companyname.filereport.exception.InvalidFormatException;
+import com.companyname.filereport.exception.InvalidLineException;
 
 /**
  * 
@@ -11,9 +13,9 @@ public abstract class EntityFactory {
 
 	public static final String DATA_SEPARATOR = "ç";
 
-	public abstract Entity create(String data);
+	public abstract Entity create(String data) throws InvalidFormatException;
 
-	public static EntityFactory instance(String line) throws Exception {
+	public static EntityFactory instance(String line) throws InvalidLineException {
 		String type = line.substring(0, 3);
 
 		switch (type) {
@@ -24,7 +26,7 @@ public abstract class EntityFactory {
 		case "003":
 			return new SaleFactory();
 		default:
-			throw new Exception("Registro inválido");
+			throw new InvalidLineException();
 		}
 	}
 

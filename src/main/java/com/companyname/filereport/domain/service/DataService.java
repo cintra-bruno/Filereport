@@ -12,6 +12,8 @@ import com.companyname.filereport.domain.entity.Sale;
 import com.companyname.filereport.domain.entity.Salesman;
 import com.companyname.filereport.domain.factory.EntityFactory;
 import com.companyname.filereport.dto.ReportDTO;
+import com.companyname.filereport.exception.InvalidFormatException;
+import com.companyname.filereport.exception.InvalidLineException;
 
 /**
  * 
@@ -20,7 +22,12 @@ import com.companyname.filereport.dto.ReportDTO;
  */
 public class DataService {
 
-	public ReportDTO generateReportData(List<String> lines) throws Exception {
+	public ReportDTO generateReportData(List<String> lines) throws InvalidLineException, InvalidFormatException {
+		
+		if(lines == null) {
+			return new ReportDTO(); 
+		}
+		
 		List<Entity> records = new ArrayList<Entity>();
 		for (String line : lines) {
 			records.add(EntityFactory.instance(line).create(line));
